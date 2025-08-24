@@ -35,10 +35,19 @@ qmk c2json -kb ferris/sweep -km qwerty2 keymaps/qwerty2/keymap.c > keymaps/qwert
 - Required for QMK Configurator compatibility
 - Ensures C and JSON keymaps stay synchronized
 
-### 5. Commit Changes
+### 5. Generate Visual Layout Documentation
 ```bash
-# Stage all modified files
-git add keymaps/qwerty2/keymap.c keymaps/qwerty2/keymap.json
+qmk info -kb ferris/sweep -km qwerty2 -l --ascii > keymap_layout.txt
+```
+- Creates/updates the text-based visual layout documentation
+- Provides ASCII art representation of all layers
+- Includes comprehensive key legends and explanations
+- Essential for printable keyboard reference
+
+### 6. Commit and Push All Changes
+```bash
+# Stage all modified and new files
+git add keymaps/qwerty2/keymap.c keymaps/qwerty2/keymap.json keymap_layout.txt
 
 # Commit with descriptive message
 git commit -m "$(cat <<'EOF'
@@ -51,6 +60,9 @@ git commit -m "$(cat <<'EOF'
 Co-Authored-By: Claude <noreply@anthropic.com>
 EOF
 )"
+
+# Push to GitHub main branch
+git push origin main
 ```
 
 ## Current Keymap Features
@@ -109,7 +121,29 @@ EOF
 ## File Structure
 ```
 keymaps/qwerty2/
-├── keymap.c     # Main C implementation
-├── keymap.json  # JSON representation (auto-generated)
-└── rules.mk     # Build configuration
+├── keymap.c          # Main C implementation
+├── keymap.json       # JSON representation (auto-generated)
+└── rules.mk          # Build configuration
+
+Root directory:
+├── CLAUDE.md         # This workflow documentation
+└── keymap_layout.txt # Visual layout documentation (auto-generated)
 ```
+
+## Complete Workflow Summary
+
+**MANDATORY STEPS** - All must be completed for every keymap update:
+
+1. **Edit** → `keymaps/qwerty2/keymap.c`
+2. **Compile** → `qmk compile -kb ferris/sweep -km qwerty2`
+3. **Flash** → `qmk flash -kb ferris/sweep -km qwerty2`
+4. **Generate JSON** → `qmk c2json ... > keymap.json`
+5. **Generate Layout** → `qmk info ... > keymap_layout.txt`
+6. **Commit & Push** → `git add`, `git commit`, `git push origin main`
+
+**Files that must be updated/committed:**
+- `keymaps/qwerty2/keymap.c` (manual edit)
+- `keymaps/qwerty2/keymap.json` (auto-generated)
+- `keymap_layout.txt` (auto-generated)
+
+**Never skip the visual layout generation** - it provides essential documentation for understanding the keyboard layout without parsing code.
