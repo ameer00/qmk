@@ -20,7 +20,11 @@ enum {
   TD_O_LPRN,
   TD_P_RPRN,
   TD_L_QUESTION,
-  TD_M_SLASH
+  TD_M_SLASH,
+  TD_COMM_COLON,
+  TD_DOT_QUOTE,
+  TD_H_MINUS,
+  TD_S_TILDE
 };
 
 // Define states for tap dance
@@ -72,6 +76,10 @@ static td_tap_t o_tap_state = { .is_press_action = true, .state = TD_NONE };
 static td_tap_t p_tap_state = { .is_press_action = true, .state = TD_NONE };
 static td_tap_t l_tap_state = { .is_press_action = true, .state = TD_NONE };
 static td_tap_t m_tap_state = { .is_press_action = true, .state = TD_NONE };
+static td_tap_t comm_tap_state = { .is_press_action = true, .state = TD_NONE };
+static td_tap_t dot_tap_state = { .is_press_action = true, .state = TD_NONE };
+static td_tap_t h_tap_state = { .is_press_action = true, .state = TD_NONE };
+static td_tap_t s_tap_state = { .is_press_action = true, .state = TD_NONE };
 
 // --- Tap Dance Finished Handlers (one for each key) ---
 
@@ -471,6 +479,138 @@ void m_slash_reset(tap_dance_state_t *state, void *user_data) {
   m_tap_state.state = TD_NONE;
 }
 
+void comm_colon_finished(tap_dance_state_t *state, void *user_data) {
+  comm_tap_state.state = cur_dance(state);
+  switch (comm_tap_state.state) {
+    case TD_SINGLE_TAP:
+      tap_code(KC_COMM);
+      break;
+    case TD_SINGLE_HOLD:
+      tap_code16(LSFT(KC_SCLN)); // :
+      break;
+    case TD_DOUBLE_TAP:
+      tap_code(KC_COMM);
+      tap_code(KC_COMM);
+      break;
+    case TD_DOUBLE_SINGLE_TAP:
+      tap_code(KC_COMM);
+      register_code(KC_COMM);
+      break;
+    default:
+      break;
+  }
+}
+
+void comm_colon_reset(tap_dance_state_t *state, void *user_data) {
+  switch (comm_tap_state.state) {
+    case TD_DOUBLE_SINGLE_TAP:
+      unregister_code(KC_COMM);
+      break;
+    default:
+      break;
+  }
+  comm_tap_state.state = TD_NONE;
+}
+
+void dot_quote_finished(tap_dance_state_t *state, void *user_data) {
+  dot_tap_state.state = cur_dance(state);
+  switch (dot_tap_state.state) {
+    case TD_SINGLE_TAP:
+      tap_code(KC_DOT);
+      break;
+    case TD_SINGLE_HOLD:
+      tap_code16(LSFT(KC_QUOT)); // "
+      break;
+    case TD_DOUBLE_TAP:
+      tap_code(KC_DOT);
+      tap_code(KC_DOT);
+      break;
+    case TD_DOUBLE_SINGLE_TAP:
+      tap_code(KC_DOT);
+      register_code(KC_DOT);
+      break;
+    default:
+      break;
+  }
+}
+
+void dot_quote_reset(tap_dance_state_t *state, void *user_data) {
+  switch (dot_tap_state.state) {
+    case TD_DOUBLE_SINGLE_TAP:
+      unregister_code(KC_DOT);
+      break;
+    default:
+      break;
+  }
+  dot_tap_state.state = TD_NONE;
+}
+
+void h_minus_finished(tap_dance_state_t *state, void *user_data) {
+  h_tap_state.state = cur_dance(state);
+  switch (h_tap_state.state) {
+    case TD_SINGLE_TAP:
+      tap_code(KC_H);
+      break;
+    case TD_SINGLE_HOLD:
+      tap_code(KC_MINS); // -
+      break;
+    case TD_DOUBLE_TAP:
+      tap_code(KC_H);
+      tap_code(KC_H);
+      break;
+    case TD_DOUBLE_SINGLE_TAP:
+      tap_code(KC_H);
+      register_code(KC_H);
+      break;
+    default:
+      break;
+  }
+}
+
+void h_minus_reset(tap_dance_state_t *state, void *user_data) {
+  switch (h_tap_state.state) {
+    case TD_DOUBLE_SINGLE_TAP:
+      unregister_code(KC_H);
+      break;
+    default:
+      break;
+  }
+  h_tap_state.state = TD_NONE;
+}
+
+void s_tilde_finished(tap_dance_state_t *state, void *user_data) {
+  s_tap_state.state = cur_dance(state);
+  switch (s_tap_state.state) {
+    case TD_SINGLE_TAP:
+      tap_code(KC_S);
+      break;
+    case TD_SINGLE_HOLD:
+      tap_code16(LSFT(KC_GRV)); // ~
+      break;
+    case TD_DOUBLE_TAP:
+      tap_code(KC_S);
+      tap_code(KC_S);
+      break;
+    case TD_DOUBLE_SINGLE_TAP:
+      tap_code(KC_S);
+      register_code(KC_S);
+      break;
+    default:
+      break;
+  }
+}
+
+void s_tilde_reset(tap_dance_state_t *state, void *user_data) {
+  switch (s_tap_state.state) {
+    case TD_DOUBLE_SINGLE_TAP:
+      unregister_code(KC_S);
+      break;
+    default:
+      break;
+  }
+  s_tap_state.state = TD_NONE;
+}
+
 // --- Tap Dance Definition ---
 
 // This array registers our tap dance actions with QMK.
@@ -486,7 +626,11 @@ tap_dance_action_t tap_dance_actions[] = {
   [TD_O_LPRN]     = ACTION_TAP_DANCE_FN_ADVANCED(NULL, o_lprn_finished, o_lprn_reset),
   [TD_P_RPRN]     = ACTION_TAP_DANCE_FN_ADVANCED(NULL, p_rprn_finished, p_rprn_reset),
   [TD_L_QUESTION] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, l_question_finished, l_question_reset),
-  [TD_M_SLASH]    = ACTION_TAP_DANCE_FN_ADVANCED(NULL, m_slash_finished, m_slash_reset)
+  [TD_M_SLASH]    = ACTION_TAP_DANCE_FN_ADVANCED(NULL, m_slash_finished, m_slash_reset),
+  [TD_COMM_COLON] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, comm_colon_finished, comm_colon_reset),
+  [TD_DOT_QUOTE]  = ACTION_TAP_DANCE_FN_ADVANCED(NULL, dot_quote_finished, dot_quote_reset),
+  [TD_H_MINUS]    = ACTION_TAP_DANCE_FN_ADVANCED(NULL, h_minus_finished, h_minus_reset),
+  [TD_S_TILDE]    = ACTION_TAP_DANCE_FN_ADVANCED(NULL, s_tilde_finished, s_tilde_reset)
 };
 
 
@@ -521,11 +665,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         TD(TD_Q_EXCLAM), TD(TD_W_AT), TD(TD_E_HASH), TD(TD_R_DOLLAR), TD(TD_T_PERCENT),
         TD(TD_Y_CARET), TD(TD_U_AMPR), TD(TD_I_ASTR), TD(TD_O_LPRN), TD(TD_P_RPRN),
 
-        KC_A,        KC_S, LALT_T(KC_D), LGUI_T(KC_F), KC_G,
-        KC_H, RGUI_T(KC_J), RALT_T(KC_K), TD(TD_L_QUESTION), KC_BSPC,
+        KC_A,        TD(TD_S_TILDE), LALT_T(KC_D), LGUI_T(KC_F), KC_G,
+        TD(TD_H_MINUS), RGUI_T(KC_J), RALT_T(KC_K), TD(TD_L_QUESTION), KC_BSPC,
 
         KC_Z,        KC_X, KC_C, KC_V, KC_B,
-        KC_N, TD(TD_M_SLASH), KC_COMM, KC_DOT, KC_ENT,
+        KC_N, TD(TD_M_SLASH), TD(TD_COMM_COLON), TD(TD_DOT_QUOTE), KC_ENT,
 
                                           KC_SPC, KC_LSFT, KC_LCTL, TO(1)
     ),
