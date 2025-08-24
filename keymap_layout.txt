@@ -1,0 +1,116 @@
+Ferris Sweep - qwerty2 Keymap Layout
+====================================
+
+Keyboard: Ferris sweep
+Manufacturer: DPB
+Processor: atmega32u4
+Bootloader: atmel-dfu
+
+LAYER 0 (Main QWERTY with Tap Dance)
+====================================
+         __                          __
+     __ |TD| __                  __ |TD| __
+    |TD||__||TD| __          __ |TD||__||TD|
+ __ |__| __ |__||TD|        |TD||__| __ |__| __
+|TD| __ |LA| __ |__|        |__| __ |RA| __ |TD|
+|__||TD||__||LG| __          __ |RG||__||TD||__|
+ __ |__| __ |__||G |        |TD||__| __ |__| __
+|A | __ |C | __ |__|        |__| __ |TD| __ |BS|
+|__||X ||__||V | __          __ |TD||__||TD||__|
+ __ |__|    |__||B |        |N ||__|    |__| __
+|Z |            |__|        |__|            |EN|
+|__|                                        |__|
+               __  __      __  __
+              |SP||LS|    |LC||TO|
+              |__||__|    |__||__|
+
+Key Legend for Layer 0:
+- TD = Tap Dance keys (see details below)
+- LA = Left Alt (D)
+- LG = Left GUI (F)
+- RA = Right Alt (K)
+- RG = Right GUI (J)
+- BS = Backspace
+- EN = Enter
+- SP = Space
+- LS = Left Shift
+- LC = Left Control
+- TO = Layer toggle (to Layer 1)
+
+Tap Dance Functions:
+- Q/TD: tap=Q, hold=!
+- W/TD: tap=W, hold=@
+- E/TD: tap=E, hold=#
+- R/TD: tap=R, hold=$
+- T/TD: tap=T, hold=%
+- Y/TD: tap=Y, hold=^
+- U/TD: tap=U, hold=&
+- I/TD: tap=I, hold=*
+- O/TD: tap=O, hold=(
+- P/TD: tap=P, hold=)
+- S/TD: tap=S, hold=~
+- H/TD: tap=H, hold=-
+- L/TD: tap=L, hold=?
+- M/TD: tap=M, hold=/
+- ,/TD: tap=,, hold=:
+- ./TD: tap=., hold="
+
+LAYER 1 (Numbers & Navigation)
+==============================
+         __                          __
+     __ |3 | __                  __ |8 | __
+    |2 ||__||4 | __          __ |7 ||__||9 |
+ __ |__| __ |__||5 |        |6 ||__| __ |__| __
+|1 | __ |UP| __ |__|        |__| __ |LB| __ |0 |
+|__||GR||__||VO| __          __ |EQ||__||RB||__|
+ __ |__| __ |__||VO|        |MI||__| __ |__| __
+|ES| __ |DO| __ |__|        |__| __ |SC| __ |BS|
+|__||LE||__||RG| __          __ |SL||__||QU||__|
+ __ |__|    |__||MS|        |BS||__|    |__| __
+|TA|            |__|        |__|            |EN|
+|__|                                        |__|
+               __  __      __  __
+              |TO||LS|    |RA||TO|
+              |__||__|    |__||__|
+
+Key Legend for Layer 1:
+- Numbers: 1-0 across top row
+- ES = Escape, GR = Grave, UP = Up Arrow
+- VO = Volume Down/Up, LE = Left, DO = Down, RG = Right
+- MS = Media Stop, TA = Tab
+- MI = Minus, EQ = Equal, LB = Left Bracket, RB = Right Bracket
+- BS = Backslash, SL = Slash, SC = Semicolon, QU = Quote
+- RA = Right Alt, TO = Layer toggle
+
+LAYER 2 (Function Keys & Mouse)
+===============================
+         __                          __
+     __ |F3| __                  __ |F8| __
+    |F2||__||F4| __          __ |F7||__||F9|
+ __ |__| __ |__||F5|        |F6||__| __ |__| __
+|F1| __ |MS| __ |__|        |__| __ |MS| __ |F1|
+|__||WH||__||WH| __          __ |BT||__||BO||__|
+ __ |__| __ |__||BT|        |BR||__| __ |__| __
+|BO| __ |MS| __ |__|        |__| __ |MS| __ |F1|
+|__||MS||__||MS| __          __ |MS||__||MS||__|
+ __ |__|    |__||NO|        |BR||__|    |__| __
+|BT|            |__|        |__|            |F1|
+|__|                                        |__|
+               __  __      __  __
+              |TO||NO|    |NO||NO|
+              |__||__|    |__||__|
+
+Key Legend for Layer 2:
+- F1-F12 = Function keys
+- MS = Mouse movement (Up/Down/Left/Right)
+- WH = Wheel Up/Down
+- BT = Mouse Button 1/2
+- BO = BOOT_HOLD (5-second hold enters bootloader)
+- BR = Brightness Up/Down
+- NO = No operation
+- TO = Layer toggle (back to Layer 0)
+
+Special Features:
+- BOOT_HOLD: Hold for 5 seconds to enter bootloader mode
+- All tap dance keys support double-tap for repeat
+- Mod-tap keys: D=Alt, F=GUI, J=GUI, K=Alt
